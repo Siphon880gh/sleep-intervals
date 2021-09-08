@@ -26,6 +26,13 @@ window.settings = {
  * Utility functions
  */
 window.utility = {
+    validateMilitaryTime: (militaryTime) => {
+        let firstPass = typeof militaryTime==="string" && militaryTime.length===4,
+            secondPass = parseInt(militaryTime.substr(0,2)) >= 0 && parseInt(militaryTime.substr(0,2)) <= 23,
+            thirdPass = parseInt(militaryTime.substr(2,2)) >= 0 && parseInt(militaryTime.substr(2,2)) <= 59;
+        let isValid = firstPass && secondPass && thirdPass;
+        return isValid;
+    },
     cvtMilitaryTimeToFractional: (militaryTime) => {
         // TODO.
         return militaryTime;

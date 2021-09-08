@@ -6,6 +6,37 @@
  * 
  */
 
+// Test validate military time
 $(()=>{
+    const test=(militaryTime)=>{
+
+        switch(militaryTime) {
+            // First pass
+            case "1111":
+                console.assert(typeof "1111" === "string");
+                console.assert("1111".length===4);
+                break;
+
+            case "2400": // mock wrong
+                console.assert("2400".substr(0,2)==="24");
+                console.assert(parseInt("2400".substr(0,2))>=0);
+                console.assert(parseInt("2400".substr(0,2))<=23===false);
+                break;
+
+            case "1260": // mock wrong
+                console.assert("1260".substr(2,2)==="60");
+                console.assert(parseInt("1260".substr(2,2))>=0);
+                console.assert(parseInt("1260".substr(2,2))<=59===false);
+                break;
+                
+                
+            default:
+                console.assert(false);
+        }
+    }
+
+    test("1111");
+    test("1260");
+    test("2400");
     
-})
+});
