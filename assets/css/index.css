@@ -13,3 +13,15 @@
 .fs-7 {
     font-size: .75rem !important;
 }
+
+.hoverable {
+    cursor: pointer;
+}
+
+.hoverable:hover {
+    color: black;
+}
+
+.fa-eye.active {
+    color: black;
+}
