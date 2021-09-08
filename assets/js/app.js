@@ -34,8 +34,12 @@ window.utility = {
         return isValid;
     },
     cvtMilitaryTimeToFractional: (militaryTime) => {
-        // TODO.
-        return militaryTime;
+        let hh = parseInt(militaryTime.substr(0,2));
+        let mm = parseInt(militaryTime.substr(2,2));
+        let fractional = hh+(mm/60)
+        // Round to two decimal places
+        return Math.round((fractional + Number.EPSILON) * 100) / 100;
+        return fractional;
     },
     cvtFractionalToMilitaryTime: (fractionalTime) => {
         // TODO.
