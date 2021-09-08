@@ -40,3 +40,31 @@ $(()=>{
     test("2400");
     
 });
+
+// Test converting military time to fractional
+$(()=>{
+    const test = (militaryTime) => {
+        const feelingLucky = (militaryTime) => {
+            let hh = parseInt(militaryTime.substr(0,2));
+                let mm = parseInt(militaryTime.substr(2,2));
+                let fractional = hh+(mm/60)
+                // Round to two decimal places
+                return Math.round((fractional + Number.EPSILON) * 100) / 100;
+        }
+        switch(militaryTime) {
+                
+            case "1100":
+                console.assert(feelingLucky("1100")===11);
+                break;
+            case "1115":
+                console.assert(feelingLucky("1115")===11.25);
+                break;
+            default:
+                console.assert(false);
+        }
+    }
+
+    test("1100");
+    test("1115");
+
+})
