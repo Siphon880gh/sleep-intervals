@@ -2,6 +2,14 @@
     resize: vertical;
 }
 
+.resize-none {
+    resize: none;
+}
+
 .fs-6 {
+    font-size: .9rem !important;
+}
+
+.fs-7 {
     font-size: .75rem !important;
 }
