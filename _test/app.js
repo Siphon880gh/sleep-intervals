@@ -240,7 +240,7 @@ $(()=>{
             }
             let delta = pointBFractional - pointAFractional;
             let splitDelta = delta/countSteps;
-            if(splitDelta<=0) alert(`You're already going to miss sleep because you want to wake up at ${settings[0].timeWakeUpBy} and it takes you ${settings[0].durationSleepToWake} hours to be fully rested in bed including waking up in the middle. Go to bed!`, "Hey!");
+            if(splitDelta<=0) console.info(`You're already going to miss sleep because you want to wake up at ${settings[0].timeWakeUpBy} and it takes you ${settings[0].durationSleepToWake} hours to be fully rested in bed including waking up in the middle. Go to bed!`, "Hey!");
 
             splittedTimemarks = [
                 subtractTime(subtractFrom, splitDelta, 0),

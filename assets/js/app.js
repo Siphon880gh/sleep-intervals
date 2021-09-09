@@ -92,7 +92,6 @@ $(()=>{
     let timemark = ""+hh+mm;
     let fractional = utility.cvtMilitaryTimeToFractional(timemark);
     let minutes = (fractional % 1) * 60;
-    debugger;
     let mmRounded = (()=>{
         if(minutes<=60 && minutes > 45) {
             return 0;
@@ -104,7 +103,6 @@ $(()=>{
             return 15;
         }
     })(minutes)
-    debugger;
     $(".time-opened-app").val(""+hh+mm);
     $(".override-splitting-time-from").val(""+hh+mmRounded);
 });
@@ -127,6 +125,19 @@ $(()=>{
         if(isValidated) {
             $eventEl.removeClass("is-invalid").addClass("is-valid");
             settings.save({timeWakeUpBy})
+        } else
+            $eventEl.addClass("is-invalid").removeClass("is-valid");
+    });
+
+    $(".override-splitting-time-from").on('change', (event) => {
+        let $eventEl = $(event.target);
+        let input = $eventEl.val()+"";
+
+        let isValidated = utility.validateMilitaryTime(inputPointA);
+        // console.log({isValidated})
+
+        if(isValidated) {
+            $eventEl.removeClass("is-invalid").addClass("is-valid");
         } else
             $eventEl.addClass("is-invalid").removeClass("is-valid");
     });
