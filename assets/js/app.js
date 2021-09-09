@@ -50,17 +50,20 @@ window.utility = {
     },
     cvtFractionalToMilitaryTime: (fractionalTime) => {
         let h = Math.floor(fractionalTime);
-        let hh = h<10?"0"+h:""+h;
+        let hh = (""+h).padStart(2,"0");
 
         let moduled = fractionalTime%1;
         let m = Math.round(moduled*60);
-        let mm = m<10?"0"+m:""+m;
+        let mm = (""+m).padStart(2,"0");
 
         let timemark = hh+mm;
         return timemark;
     },
     countOptionalSteps: () => {
         return settings[0].steps.optional.length;
+    },
+    countTotalSteps: () => {
+        return utility.countOptionalSteps() + 2; // begin and fall asleep steps
     }
 }
 
@@ -100,7 +103,7 @@ $(()=>{
     let timemark = ""+hh+mm;
     let fractional = utility.cvtMilitaryTimeToFractional(timemark);
     let minutes = (fractional % 1) * 60;
-    debugger;
+    
     let mRoundedUp = (()=>{
         if(minutes<=60 && minutes > 45) {
             return 0;
@@ -148,7 +151,7 @@ $(()=>{
             $eventEl.addClass("is-invalid").removeClass("is-valid");
     });
 
-    $(".override-splitting-time-from").on('change', (event) => {
+    $(".optional-prepare-time").on('change', (event) => {
         let $eventEl = $(event.target);
         let inputPointA = $eventEl.val()+"";
 
@@ -171,6 +174,12 @@ $(()=>{
         // settings.save({durationSleepToWake});
     });
 
+    $(".optional-prepare-time").on('change', (event) => {
+        let $eventEl = $(event.target);
+        let possMilitaryTime = $eventEl.val();
+        if(utility.validateMilitaryTime(possMilitaryTime))
+            settings.save({});
+    });
 
     $(".input-step").on('change', (event) => {
         let $eventEl = $(event.target);
