@@ -49,10 +49,10 @@ window.utility = {
         return fractional;
     },
     cvtFractionalToMilitaryTime: (fractionalTime) => {
-        let h = Math.floor(fractional);
+        let h = Math.floor(fractionalTime);
         let hh = h<10?"0"+h:""+h;
 
-        let moduled = fractional%1;
+        let moduled = fractionalTime%1;
         let m = Math.round(moduled*60);
         let mm = m<10?"0"+m:""+m;
 
