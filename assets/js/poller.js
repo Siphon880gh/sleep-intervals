@@ -35,7 +35,7 @@
                 const prepareTime = $elRecommend.find(".optional-prepare-time").val();
                 const prepareTimeFractional = utility.cvtMilitaryTimeToFractional(prepareTime);
                 stepSizeFractional = (function(fallAsleepAtFractional, prepareTimeFractional){
-                    const stepSize = fallAsleepAtFractional-prepareTimeFractional;
+                    let stepSize = (fallAsleepAtFractional-prepareTimeFractional)/countTotalSteps;
                     return Math.round((stepSize + Number.EPSILON) * 100) / 100; // step size in hour fractionals
                 })(fallAsleepAtFractional, prepareTimeFractional);
                 
@@ -46,6 +46,7 @@
                 } else {
                     $elRecommend.find(".too-late").addClass("hide");
                 }
+                console.log({prepareTimeFractional, fallAsleepAtFractional, stepSizeFractional});
             } else {
                 stepSizeFractional = $elRecommend.data("stepsize");
                 stepSizeFractional = parseFloat(stepSizeFractional);
