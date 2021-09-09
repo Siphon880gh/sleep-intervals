@@ -51,10 +51,10 @@ $(()=>{
     const test = (militaryTime) => {
         const feelingLucky = (militaryTime) => {
             let hh = parseInt(militaryTime.substr(0,2));
-                let mm = parseInt(militaryTime.substr(2,2));
-                let fractional = hh+(mm/60)
-                // Round to two decimal places
-                return Math.round((fractional + Number.EPSILON) * 100) / 100;
+            let mm = parseInt(militaryTime.substr(2,2));
+            let fractional = hh+(mm/60)
+            // Round to two decimal places
+            return Math.round((fractional + Number.EPSILON) * 100) / 100;
         }
         switch(militaryTime) {
                 
@@ -166,4 +166,109 @@ $(()=>{
     testOptionalStepsModel(["0", "a", "b", "", "1"]);
     testOptionalStepsModel(["0", "", "b", "", "1"]);
     test__resetBehaviors();
+})
+
+// Test timemark recommendations
+$(()=>{
+    // - If user entered 0600 wake up time, 8 hours to be in bed, and filled 1 optional step,
+    // then we expect appropriate timemarks and only 1 visible optional stes per recommendation.
+    // - The appropriate timemarks are the steps back from the time you should fall asleep, which is the time to wake up + time it takes for a full rest in bed.
+    // - So for ideal 30 min time markets, the appropriate timemarks are 30 mins at a time back for however number of steps there are. These are the recommended
+    // steps and timemarks in preparing for sleep.
+    // - However, at "opened app" and "experimental" there's a provided time to prepare to sleep, so calculating the timemarks for the steps is different. 
+    // You divide time evenly for number of steps between provided time and the time you should fall asleep.
+    const expects = {
+        subtractFrom:6,
+        stepSizeFractional: [
+            0,
+            .5,
+            .75,
+            1
+        ]
+    }
+
+    // Fill times
+    document.querySelector(".input-duration-sleep-to-wake").selectedIndex=8
+    document.querySelector(".input-time-wake-up-by").value = "0600";
+    $(".input-duration-sleep-to-wake, .input-time-wake-up-by").trigger("change");
+
+    // Fill some steps
+    $(".input-first-step").val("0");
+    // $("td:nth-child(2) .input-optional-step").val("a");
+    $("td:nth-child(3) .input-optional-step").val("b");
+    // $("td:nth-child(4) .input-optional-step").val("c");
+    $(".input-last-step").val("1");
+
+    $(".time-opened-app, .override-splitting-time-from").val("2200");
+
+    const countSteps = (()=>{
+        const countOptionalSteps = utility.countOptionalSteps();
+        return 2 + countOptionalSteps;;
+    })();
+    const durationSleepToWake = settings[0].durationSleepToWake;
+    const subtractFrom = (()=>{
+        timeWakeUpByFractional = utility.cvtMilitaryTimeToFractional(settings[0].timeWakeUpBy);
+        let equaled = timeWakeUpByFractional - durationSleepToWake;
+        if(equaled<0) equaled = 24+equaled; // standardize any negative to fractional hour around the clock
+        return equaled;
+    })();
+
+    $(".recommendation").each((i,elRecommend)=>{
+        const $elRecommend = $(elRecommend);
+        const stepSizeFractional = ((stepSize)=>{
+            stepSize = parseInt(stepSize); // step size in minutes
+            return Math.round(((stepSize/60) + Number.EPSILON) * 100) / 100; // step size in hour fractionals
+        })($elRecommend.attr("data-stepsize"));
+        
+        function subtractTime(subtractFrom, stepSizeFractional, by) {
+            let equaled = subtractFrom - stepSizeFractional * by;
+            if(equaled<0) equaled = 24+equaled; // standardize any negative to fractional hour around the clock
+            return equaled;
+        }
+        
+        let splittedFractionals = [];
+        let splittedTimemarks = [];
+        const isSplittingTimeFromPrepared = $elRecommend.find(".override-splitting-time-from").length>0;
+        if(isSplittingTimeFromPrepared) {
+            let timemark = $elRecommend.find(".override-splitting-time-from").val();
+            let pointA = utility.cvtMilitaryTimeToFractional(timemark);
+            let equaled = subtractFrom - pointA;
+            if(equaled<0) equaled = 24+equaled; // standardize any negative to fractional hour around the clock
+
+            // TODO
+            
+        } else {
+            splittedTimemarks = [
+                subtractTime(subtractFrom, stepSizeFractional, 0),
+                subtractTime(subtractFrom, stepSizeFractional, 1),
+                subtractTime(subtractFrom, stepSizeFractional, 2),
+                subtractTime(subtractFrom, stepSizeFractional, 3)
+            ];
+            // console.log({splittedTimemarks});
+            console.assert(stepSizeFractional===.5 || stepSizeFractional===.75 || stepSizeFractional===1)
+            switch(stepSizeFractional) {
+                case .5:
+                    console.assert(splittedTimemarks[0]===22);
+                    console.assert(splittedTimemarks[1]===21.5);
+                    console.assert(splittedTimemarks[2]===21);
+                    console.assert(splittedTimemarks[3]===20.5);
+                    break;
+                case .75:
+                    console.assert(splittedTimemarks[0]===22);
+                    console.assert(splittedTimemarks[1]===21.25);
+                    console.assert(splittedTimemarks[2]===20.5);
+                    console.assert(splittedTimemarks[3]===19.75);
+                    break;
+                case 1:
+                    console.assert(splittedTimemarks[0]===22);
+                    console.assert(splittedTimemarks[1]===21);
+                    console.assert(splittedTimemarks[2]===20);
+                    console.assert(splittedTimemarks[3]===19);
+                    break;
+            }
+        }
+
+        // console.log({i, stepSizeFractional});
+        console.assert(stepSizeFractional===expects.stepSizeFractional[i]);
+    })
 })

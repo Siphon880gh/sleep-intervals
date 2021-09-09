@@ -43,7 +43,7 @@ window.utility = {
     cvtMilitaryTimeToFractional: (militaryTime) => {
         let h = parseInt(militaryTime.substr(0,2));
         let m = parseInt(militaryTime.substr(2,2));
-        let fractional = hh+(mm/60)
+        let fractional = h+(m/60)
         // Round to two decimal places
         fractional = Math.round((fractional + Number.EPSILON) * 100) / 100;
         return fractional;
@@ -111,10 +111,10 @@ $(()=>{
         let $eventEl = $(event.target);
         let durationSleepToWake = $eventEl.val();
         durationSleepToWake = parseInt(durationSleepToWake);
-        console.log({durationSleepToWake});
+        // console.log({durationSleepToWake});
 
         $eventEl.addClass("is-valid");
-        settings.save({durationSleepToWake});
+        // settings.save({durationSleepToWake});
     });
 
 
