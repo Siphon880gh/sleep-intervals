@@ -203,7 +203,7 @@ $(()=>{
 
     const countSteps = (()=>{
         const countOptionalSteps = utility.countOptionalSteps();
-        return 2 + countOptionalSteps;;
+        return 2 + countOptionalSteps;
     })();
     const durationSleepToWake = settings[0].durationSleepToWake;
     const subtractFrom = (()=>{
@@ -230,10 +230,23 @@ $(()=>{
         let splittedTimemarks = [];
         const isSplittingTimeFromPrepared = $elRecommend.find(".override-splitting-time-from").length>0;
         if(isSplittingTimeFromPrepared) {
-            let timemark = $elRecommend.find(".override-splitting-time-from").val();
-            let pointA = utility.cvtMilitaryTimeToFractional(timemark);
-            let equaled = subtractFrom - pointA;
-            if(equaled<0) equaled = 24+equaled; // standardize any negative to fractional hour around the clock
+            let pointATimemark = $elRecommend.find(".override-splitting-time-from").val();
+            let pointAFractional = utility.cvtMilitaryTimeToFractional(pointATimemark);
+            let pointBFractional = subtractFrom;
+            // Example 22 vs 2, then convert 2 to 24
+            if(pointAFractional > pointBFractional) {
+                if(pointBFractional<10) // reasonable number of hours pass midnight
+                    pointBFractional = pointBFractional+=24;
+            }
+            let delta = pointBFractional - pointAFractional;
+            let divs = delta/countSteps;
+            if(divs<=0) alert(`You're already going to miss sleep because you want to wake up at ${settings[0].timeWakeUpBy} and takes ${settings[0].durationSleepToWake} hours to be fully rested in bed including waking up in the middle. Go to bed!`, "Hey!");
+
+            // let pointA = utility.cvtMilitaryTimeToFractional(timemark);
+            // let equaled = subtractFrom - pointA;
+            // if(equaled<0) equaled = 24+equaled; // standardize any negative to fractional hour around the clock
+
+            let overridingStepSize 
 
             // TODO
             
@@ -319,7 +332,7 @@ $(()=>{
                 $elRecommend.find("td.output-optional-step:nth-child(2), th.h-output-optional-step:nth-child(2)").addClass("hide");
                 $elRecommend.find("td.output-optional-step:nth-child(3), th.h-output-optional-step:nth-child(3)").addClass("hide");
                 $elRecommend.find("td.output-optional-step:nth-child(4), th.h-output-optional-step:nth-child(4)").addClass("hide");
-                
+
                 $elRecommend.find("td.output-last-step .timemark").text(utility.cvtFractionalToMilitaryTime(splittedTimemarks[1]));
                 $elRecommend.find("td.output-last-step textarea").text(settings.prepend.steps.last + settings[0].steps.last);
             }
