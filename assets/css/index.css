@@ -38,3 +38,7 @@
 .bgc-red {
     background-color: red;
 }
+
+textarea {
+    height: 150px;
+}

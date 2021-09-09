@@ -10,8 +10,8 @@ window.settings = {
     lastUpdated: 0,
     prepend: {
         steps: {
-            first: "Prepare for sleep. ",
-            last: "You should've fallen asleep. "
+            first: "",
+            last: ""
         }
     },
     save: function(mergeObj) {
@@ -22,9 +22,12 @@ window.settings = {
         timeWakeUpBy: "0600",
         durationSleepToWake: 8,
         steps: {
-            first: "1",
-            optional: ["a","b","c"],
-            last: "2",
+            first: "Prepare for sleep. Wrap up or migrate tasks to the future (write somewhere). No execution or planning. Wrap up conversations or set boundaries. DND on phone (consider scheduled DND).",
+            optional: [
+                "Sleep pills if you take them. Review the timemarks/steps to falling asleep.",
+                "Hot shower to help sleep. Be near or on bed. Relaxation activities (videogame allowed with blue light blocking glasses). Lights are dimmed or dark.",
+                "Postpone all relaxation activities. Close eyes. May listen to non-stimulating podcasts with eyes closed."],
+            last: "You should've fallen asleep. If not, did you follow instructions? Is this too early for sleep? Or should you practice sleep restriction (google it)?",
         }
     }
 }
