@@ -97,23 +97,6 @@
             </div>
         </div>
 
-        <div class="card card-default mb-3">
-            <div class="card-header">
-                <span class="card-title fw-bold">If you want to test</span>
-            </div>
-            <div class="card-body">
-                <p>Test a time you start preparing for sleep.</p>
-                <div class="input-group">
-                    <div class="input-group-prepend">
-                        <div class="input-group-text">Experimental</div>
-                    </div>
-                    <input type="text" class="form-control override-splitting-time-from" value="" placeholder="Military time eg. 2100" />
-                    <div class="invalid-feedback">
-                        Please use <a href="//militaryconnection.com/military-time/" target="_blank">military time</a>. Refer to midnight as 0000 because that starts a new day in AM.
-                    </div>
-                </div>
-            </div>
-        </div>
 
         <div class="card bg-secondary text-white">
             <div class="card-header">
@@ -132,6 +115,72 @@
                             <div class="input-group-text">Rounded up</div>
                         </div>
                         <input type="text" class="form-control override-splitting-time-from" value="" placeholder="" disabled />
+                    </div>
+                    <div class="table-responsive">
+                        <table class="table">
+                            <thead>
+                                <tr>
+                                    <th scope="col">Begin</th>
+                                    <th class="h-output-optional-step" scope="col">Optional</th>
+                                    <th class="h-output-optional-step" scope="col">Optional</th>
+                                    <th class="h-output-optional-step" scope="col">Optional</th>
+                                    <th scope="col">Fall asleep</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td class="output-first-step">
+                                        <div>
+                                            <span class="fs-6 pr-1 timemark">HHMM</span>
+                                            <input type="checkbox" />
+                                        </div>
+                                        <textarea class="fs-7 resize-vertical" disabled></textarea>
+                                    </td>
+                                    <td class="output-optional-step">
+                                        <div>
+                                            <span class="fs-6 pr-1 timemark">HHMM</span>
+                                            <input type="checkbox" />
+                                        </div>
+                                        <textarea class="fs-7 resize-vertical" disabled></textarea>
+                                    </td>
+                                    <td class="output-optional-step">
+                                        <div>
+                                            <span class="fs-6 pr-1 timemark">HHMM</span>
+                                            <input type="checkbox" />
+                                        </div>
+                                        <textarea class="fs-7 resize-vertical" disabled></textarea>
+                                    </td>
+                                    <td class="output-optional-step">
+                                        <div>
+                                            <span class="fs-6 pr-1 timemark">HHMM</span>
+                                            <input type="checkbox" />
+                                        </div>
+                                        <textarea class="fs-7 resize-vertical" disabled></textarea>
+                                    </td>
+                                    <td class="output-last-step">
+                                        <div>
+                                            <span class="fs-6 pr-1 timemark">HHMM</span>
+                                            <input type="checkbox" />
+                                        </div>
+                                        <textarea class="fs-7 resize-vertical" disabled></textarea>
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                    <!-- table-responsive wrapper -->
+                </div>
+
+                <div class="recommendation" data-stepsize="0">
+                    <h2><i class="fa fa-eye hover-black focus-recommendation"></i> Later</h2>
+                    <div class="input-group">
+                        <div class="input-group-prepend">
+                            <div class="input-group-text">I'm ready to relax at</div>
+                        </div>
+                        <input type="text" class="form-control override-splitting-time-from" value="" placeholder="Military time eg. 2100" />
+                        <div class="invalid-feedback">
+                            Please use <a href="//militaryconnection.com/military-time/" target="_blank">military time</a>. Refer to midnight as 0000 because that starts a new day in AM.
+                        </div>
                     </div>
                     <div class="table-responsive">
                         <table class="table">

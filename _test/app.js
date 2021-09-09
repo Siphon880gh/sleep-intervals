@@ -175,11 +175,12 @@ $(()=>{
     // - The appropriate timemarks are the steps back from the time you should fall asleep, which is the time to wake up + time it takes for a full rest in bed.
     // - So for ideal 30 min time markets, the appropriate timemarks are 30 mins at a time back for however number of steps there are. These are the recommended
     // steps and timemarks in preparing for sleep.
-    // - However, at "opened app" and "experimental" there's a provided time to prepare to sleep, so calculating the timemarks for the steps is different. 
+    // - However, at "opened app" and "I'm ready" there's a provided time to prepare to sleep, so calculating the timemarks for the steps is different. 
     // You divide time evenly for number of steps between provided time and the time you should fall asleep.
     const expects = {
         subtractFrom:6,
         stepSizeFractional: [
+            0,
             0,
             .5,
             .75,
@@ -198,6 +199,7 @@ $(()=>{
     $("td:nth-child(3) .input-optional-step").val("b");
     // $("td:nth-child(4) .input-optional-step").val("c");
     $(".input-last-step").val("1");
+    $(".input-last-step").trigger("change");
 
     // $(".time-opened-app, .override-splitting-time-from").val("2000");
 
