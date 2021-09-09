@@ -8,6 +8,12 @@
  */
 window.settings = {
     lastUpdated: 0,
+    prepend: {
+        steps: {
+            first: "Prepare for sleep. ",
+            last: "You should've fallen asleep. "
+        }
+    },
     save: function(mergeObj) {
         this.lastUpdated = Date.now();
         Object.assign(this[0], mergeObj);
@@ -16,9 +22,9 @@ window.settings = {
         timeWakeUpBy: "0600",
         durationSleepToWake: 8,
         steps: {
-            first: "Begin",
+            first: "",
             optional: [],
-            last: "Fall asleep",
+            last: "",
         }
     }
 }
