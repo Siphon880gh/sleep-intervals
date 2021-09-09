@@ -54,8 +54,7 @@ window.utility = {
         return timemark;
     },
     countOptionalSteps: () => {
-        // TODO.
-        return 0;
+        return settings[0].steps.optional.length;
     }
 }
 
@@ -118,7 +117,7 @@ $(()=>{
         settings.save({
             steps: {
                 first: $(".input-first-step").val(),
-                optional: $(".input-optional-step").toArray().map(elTextarea=>elTextarea.value),
+                optional: $(".input-optional-step").toArray().map(elTextarea=>elTextarea.value).filter(textarea=>textarea.length),
                 last: $(".input-last-step").val()
             }
         });
