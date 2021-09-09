@@ -159,7 +159,6 @@ $(()=>{
         let inputPointA = $eventEl.val()+"";
 
         let isValidated = utility.validateMilitaryTime(inputPointA);
-        // console.log({isValidated})
 
         if(isValidated) {
             $eventEl.removeClass("is-invalid").addClass("is-valid");
@@ -171,10 +170,9 @@ $(()=>{
         let $eventEl = $(event.target);
         let durationSleepToWake = $eventEl.val();
         durationSleepToWake = parseInt(durationSleepToWake);
-        // console.log({durationSleepToWake});
 
         $eventEl.addClass("is-valid");
-        // settings.save({durationSleepToWake});
+        settings.save({durationSleepToWake});
     });
 
     $(".optional-prepare-time").on('change', (event) => {
