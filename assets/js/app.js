@@ -100,7 +100,8 @@ $(()=>{
     let timemark = ""+hh+mm;
     let fractional = utility.cvtMilitaryTimeToFractional(timemark);
     let minutes = (fractional % 1) * 60;
-    let mRounded = (()=>{
+    debugger;
+    let mRoundedUp = (()=>{
         if(minutes<=60 && minutes > 45) {
             return 0;
         } else if(minutes<=45 && minutes > 30) {
@@ -112,10 +113,17 @@ $(()=>{
         }
     })(minutes);
 
-    let mmRounded = (""+mRounded).padStart(2, "0");
+    let mmRoundedUp = (""+mRoundedUp).padStart(2, "0");
+
+    // Round up to next hour?
+    let hAffected=h, hhAffected=hh; 
+    if(mRoundedUp===0) {
+        hAffected+=1;
+        hhAffected = (""+hAffected).padStart(2, "0");
+    }
 
     $(".time-opened-app").val(""+hh+mm);
-    $(".optional-prepare-time").val(""+hh+mmRounded);
+    $(".optional-prepare-time").val(""+hhAffected+mmRoundedUp);
 });
 
 // Event handlers
