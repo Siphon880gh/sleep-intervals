@@ -148,5 +148,10 @@ $(()=>{
             $eyeBtn.removeClass("active");
             $recommendations.removeClass("hide");
         }
-    })
+    });
+
+    $(".timemark").on("click", (event)=>{
+        let $eventEl = $(event.target);
+        $eventEl.next("input[type='checkbox']").click();
+    });
 })
