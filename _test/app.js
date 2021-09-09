@@ -67,4 +67,36 @@ $(()=>{
     test("1100");
     test("1115");
 
+});
+
+
+// Test converting fractional time to militaryTime
+$(()=>{
+    const test = (fractional) => {
+        switch(fractional) {
+                
+            case 11:
+                console.assert(fractional+""==="11");
+                var moduled  = fractional%1;
+                console.assert(moduled===0);
+                var m = Math.round(moduled*60);
+                console.assert((m<10?"0"+m:""+m)==="00");
+                console.assert(("11"+"00")==="1100");
+                break;
+            case 11.25:
+                var moduled = fractional%1;
+                console.assert(moduled===0.25);
+                let h = Math.floor(fractional);
+                console.assert(h===11);
+                console.assert((h<10?"0"+h:""+h)==="11");
+                var m = Math.round(moduled*60);
+                console.assert((m<10?"0"+m:""+m)==="15");
+                break;
+            default:
+                console.assert(false);
+        }
+    }
+
+    test(11);
+    test(11.25);
 })

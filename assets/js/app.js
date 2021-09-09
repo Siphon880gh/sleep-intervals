@@ -34,16 +34,23 @@ window.utility = {
         return isValid;
     },
     cvtMilitaryTimeToFractional: (militaryTime) => {
-        let hh = parseInt(militaryTime.substr(0,2));
-        let mm = parseInt(militaryTime.substr(2,2));
+        let h = parseInt(militaryTime.substr(0,2));
+        let m = parseInt(militaryTime.substr(2,2));
         let fractional = hh+(mm/60)
         // Round to two decimal places
-        return Math.round((fractional + Number.EPSILON) * 100) / 100;
+        fractional = Math.round((fractional + Number.EPSILON) * 100) / 100;
         return fractional;
     },
     cvtFractionalToMilitaryTime: (fractionalTime) => {
-        // TODO.
-        return fractionalTime;
+        let h = Math.floor(fractional);
+        let hh = h<10?"0"+h:""+h;
+
+        let moduled = fractional%1;
+        let m = Math.round(moduled*60);
+        let mm = m<10?"0"+m:""+m;
+
+        let timemark = hh+mm;
+        return timemark;
     },
     countOptionalSteps: () => {
         // TODO.
