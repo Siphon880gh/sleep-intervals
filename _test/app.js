@@ -270,32 +270,58 @@ $(()=>{
             if(countSteps===5) {
                 // Hour fractional -> Military Time -> HHMM element
                 $elRecommend.find("td.output-first-step .timemark").text(utility.cvtFractionalToMilitaryTime(splittedTimemarks[0]));
-                debugger;
+                $elRecommend.find("td.output-first-step textarea").text(settings.prepend.steps.first + settings[0].steps.first);
+
                 $elRecommend.find("td.output-optional-step:nth-child(2) .timemark").text(utility.cvtFractionalToMilitaryTime(splittedTimemarks[1]));
+                $elRecommend.find("td.output-optional-step:nth-child(2) textarea").text(settings[0].steps.optional[0]);
+
                 $elRecommend.find("td.output-optional-step:nth-child(3) .timemark").text(utility.cvtFractionalToMilitaryTime(splittedTimemarks[2]));
+                $elRecommend.find("td.output-optional-step:nth-child(3) textarea").text(settings[0].steps.optional[1]);
+
                 $elRecommend.find("td.output-optional-step:nth-child(4) .timemark").text(utility.cvtFractionalToMilitaryTime(splittedTimemarks[3]));
+                $elRecommend.find("td.output-optional-step:nth-child(4) textarea").text(settings[0].steps.optional[2]);
+
                 $elRecommend.find("td.output-last-step .timemark").text(utility.cvtFractionalToMilitaryTime(splittedTimemarks[4]));
+                $elRecommend.find("td.output-last-step textarea").text(settings.prepend.steps.last + settings[0].steps.last);
             } else if(countSteps===4) {
                 // Hour fractional -> Military Time -> HHMM element
                 $elRecommend.find("td.output-first-step .timemark").text(utility.cvtFractionalToMilitaryTime(splittedTimemarks[0]));
+                $elRecommend.find("td.output-first-step textarea").text(settings.prepend.steps.first + settings[0].steps.first);
+
                 $elRecommend.find("td.output-optional-step:nth-child(2) .timemark").text(utility.cvtFractionalToMilitaryTime(splittedTimemarks[1]));
+                $elRecommend.find("td.output-optional-step:nth-child(2) textarea").text(settings[0].steps.optional[0]);
+
                 $elRecommend.find("td.output-optional-step:nth-child(3),.timemark").text(utility.cvtFractionalToMilitaryTime(splittedTimemarks[2]));
+                $elRecommend.find("td.output-optional-step:nth-child(3) textarea").text(settings[0].steps.optional[1]);
+
                 $elRecommend.find("td.output-optional-step:nth-child(4), th.h-output-optional-step:nth-child(4)").addClass("hide");
+
                 $elRecommend.find("td.output-last-step .timemark").text(utility.cvtFractionalToMilitaryTime(splittedTimemarks[3]));
+                $elRecommend.find("td.output-last-step textarea").text(settings.prepend.steps.last + settings[0].steps.last);
             } else if(countSteps===3) {
                 // Hour fractional -> Military Time -> HHMM element
                 $elRecommend.find("td.output-first-step .timemark").text(utility.cvtFractionalToMilitaryTime(splittedTimemarks[0]));
+                $elRecommend.find("td.output-first-step textarea").text(settings.prepend.steps.first + settings[0].steps.first);
+
                 $elRecommend.find("td.output-optional-step:nth-child(2) .timemark").text(utility.cvtFractionalToMilitaryTime(splittedTimemarks[1]));
+                $elRecommend.find("td.output-optional-step:nth-child(2) textarea").text(settings[0].steps.optional[0]);
+
                 $elRecommend.find("td.output-optional-step:nth-child(3), th.h-output-optional-step:nth-child(3)").addClass("hide");
                 $elRecommend.find("td.output-optional-step:nth-child(4), th.h-output-optional-step:nth-child(4)").addClass("hide");
+
                 $elRecommend.find("td.output-last-step .timemark").text(utility.cvtFractionalToMilitaryTime(splittedTimemarks[2]));
+                $elRecommend.find("td.output-last-step textarea").text(settings.prepend.steps.last + settings[0].steps.last);
             } else if(countSteps===2) {
                 // Hour fractional -> Military Time -> HHMM element
                 $elRecommend.find("td.output-first-step .timemark").text(utility.cvtFractionalToMilitaryTime(splittedTimemarks[0]));
+                $elRecommend.find("td.output-first-step textarea").text(settings.prepend.steps.first + settings[0].steps.first);
+
                 $elRecommend.find("td.output-optional-step:nth-child(2), th.h-output-optional-step:nth-child(2)").addClass("hide");
                 $elRecommend.find("td.output-optional-step:nth-child(3), th.h-output-optional-step:nth-child(3)").addClass("hide");
                 $elRecommend.find("td.output-optional-step:nth-child(4), th.h-output-optional-step:nth-child(4)").addClass("hide");
+                
                 $elRecommend.find("td.output-last-step .timemark").text(utility.cvtFractionalToMilitaryTime(splittedTimemarks[1]));
+                $elRecommend.find("td.output-last-step textarea").text(settings.prepend.steps.last + settings[0].steps.last);
             }
         }
 
