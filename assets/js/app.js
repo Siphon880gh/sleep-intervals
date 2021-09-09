@@ -82,6 +82,11 @@ $(()=>{
 
 // Event handlers
 $(()=>{
+    $(".help-time-wake-up-by").on('click', ()=>{
+        alert("Please use military time. Refer to midnight as 0000 because that starts a new day in AM.");
+        window.open("//militaryconnection.com/military-time/");
+    });
+
     $(".input-time-wake-up-by").on('change', (event) => {
         let $eventEl = $(event.target);
         let timeWakeUpBy = $eventEl.val()+"";

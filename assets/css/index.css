@@ -14,12 +14,17 @@
     font-size: .75rem !important;
 }
 
-.hoverable {
+.hover-black,
+.hover-red {
     cursor: pointer;
 }
 
-.hoverable:hover {
+.hover-black:hover {
     color: black;
+}
+
+.hover-red:hover {
+    color: red;
 }
 
 .fa-eye.active {
