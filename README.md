@@ -9,8 +9,6 @@
 ---
 By Weng Fei Fung. This tool will help insomniacs prepare for sleep. Disclaimer: Not to replace doctor-to-patient professional help. 
 
-_Status: Work in progress_ 
-
 :open_file_folder: Table of Contents:
 ---
 - [Description](#description)
@@ -20,14 +18,17 @@ _Status: Work in progress_
 
 :computer: Live Deployment:
 ---
-<a href="https://siphon880gh.github.io/sleep-intervals" target="_blank">Check out what I have so far</a>
+<a href="https://siphon880gh.github.io/sleep-intervals" target="_blank">Check out</a>
 
 :camera: Preview:
 ---
-Coming soon!
+![Screenshot 1 of 2](/docs/p1.png)
+
+![Screenshot 2 of 2](/docs/p2.png)
 
 ## :minidisc: Installation and Usage:
 Run as a HTML file or server file. No needed hands-on setup.
 
 ## :crystal_ball: Future version
+- Saves your settings
 - PWA application for offline use and native app download
