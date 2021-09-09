@@ -1,4 +1,4 @@
-# Multitimers
+# Sleep Intervals - CBT Approach to Insomnia
 
 ![Last Commit](https://img.shields.io/github/last-commit/Siphon880gh/multitimers/master)
 <a target="_blank" href="https://github.com/Siphon880gh" rel="nofollow"><img src="https://img.shields.io/badge/GitHub--blue?style=social&logo=GitHub" alt="Github" data-canonical-src="https://img.shields.io/badge/GitHub--blue?style=social&logo=GitHub" style="max-width:100%;"></a>
