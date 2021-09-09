@@ -30,3 +30,7 @@
 .fa-eye.active {
     color: black;
 }
+
+.hide {
+    display: none;
+}

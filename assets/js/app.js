@@ -129,7 +129,24 @@ $(()=>{
         });
     });
 
-    
+    $(".focus-recommendation").on("click", (event) => {
+        let $eventEl = $(event.target);
+        let $eyeBtn = $eventEl;
+        let $eyeBtns = $(".focus-recommendation");
 
-    // TODO: .focus-recommendation will toggle display on all other recommendations
+        let $recommendation = $eventEl.closest(".recommendation");
+        let $recommendations = $(".recommendation");
+
+        let willBecomeActive = !$eyeBtn.hasClass("active");
+        $eyeBtns.removeClass("active");
+
+        if(willBecomeActive) {
+            $eyeBtn.addClass("active");
+            $recommendations.addClass("hide");
+            $recommendation.removeClass("hide");
+        } else {
+            $eyeBtn.removeClass("active");
+            $recommendations.removeClass("hide");
+        }
+    })
 })
