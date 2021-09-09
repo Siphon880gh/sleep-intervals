@@ -95,7 +95,18 @@ $(()=>{
             settings.save({timeWakeUpBy})
         } else
             $eventEl.addClass("is-invalid").removeClass("is-valid");
-
     });
+
+    $(".input-duration-sleep-to-wake").on('change', (event) => {
+        let $eventEl = $(event.target);
+        let durationSleepToWake = $eventEl.val();
+        durationSleepToWake = parseInt(durationSleepToWake);
+        console.log({durationSleepToWake});
+
+
+        $eventEl.addClass("is-valid");
+        settings.save({durationSleepToWake});
+    });
+
     // TODO: .focus-recommendation will toggle display on all other recommendations
 })
