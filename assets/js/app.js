@@ -103,10 +103,23 @@ $(()=>{
         durationSleepToWake = parseInt(durationSleepToWake);
         console.log({durationSleepToWake});
 
-
         $eventEl.addClass("is-valid");
         settings.save({durationSleepToWake});
     });
+
+
+    $(".input-step").on('change', (event) => {
+        let $eventEl = $(event.target);
+        settings.save({
+            steps: {
+                first: $(".input-first-step").val(),
+                optional: $(".input-optional-step").toArray().map(elTextarea=>elTextarea.value),
+                last: $(".input-last-step").val()
+            }
+        });
+    });
+
+    
 
     // TODO: .focus-recommendation will toggle display on all other recommendations
 })
