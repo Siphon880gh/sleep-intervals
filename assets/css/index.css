@@ -34,3 +34,7 @@
 .hide {
     display: none;
 }
+
+.bgc-red {
+    background-color: red;
+}

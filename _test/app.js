@@ -6,6 +6,11 @@
  * 
  */
 
+function test__resetBehaviors() {
+    $(".input-time-wake-up-by").val("");
+    $(".input-step").val("");
+}
+
 // Test validate military time
 $(()=>{
     const test=(militaryTime)=>{
@@ -99,4 +104,66 @@ $(()=>{
 
     test(11);
     test(11.25);
+})
+
+// Test varied filled optional steps
+$(()=>{
+
+    const testInputSelectors = (stepBehaviors) => {
+        test__resetBehaviors();
+
+        $(".input-first-step").val(stepBehaviors[0]);
+        $("td:nth-child(2) .input-optional-step").val(stepBehaviors[1]);
+        $("td:nth-child(3) .input-optional-step").val(stepBehaviors[2]);
+        $("td:nth-child(4) .input-optional-step").val(stepBehaviors[3]);
+        $(".input-last-step").val(stepBehaviors[4]);
+
+        $(".input-step").each((i, elTextarea) => {
+            console.assert(elTextarea.value === stepBehaviors[i]);
+        });
+    }
+
+    const testOutputSelectors = () => {
+        $recommendation = $(".recommendation[data-stepsize='30m']");
+        let m0 = $recommendation.find("td.output-first-step");
+        let a = $recommendation.find("td.output-optional-step:nth-child(2)");
+        let b = $recommendation.find("td.output-optional-step:nth-child(3)");
+        let c = $recommendation.find("td.output-optional-step:nth-child(4)");
+        let m1 = $recommendation.find("td.output-last-step");
+        console.assert(m0.length+a.length+b.length+c.length+m1.length===5);
+    }
+
+    const testOptionalStepsModel = (stepBehaviors) => {
+        test__resetBehaviors();
+
+        $(".input-first-step").val(stepBehaviors[0]);
+        $("td:nth-child(2) .input-optional-step").val(stepBehaviors[1]);
+        $("td:nth-child(3) .input-optional-step").val(stepBehaviors[2]);
+        $("td:nth-child(4) .input-optional-step").val(stepBehaviors[3]);
+        $(".input-last-step").val(stepBehaviors[4]);
+        $(".input-last-step").trigger("change");
+
+        if(stepBehaviors.join(",")==="0,a,b,c,1") {
+            console.assert(utility.countOptionalSteps()===3);
+
+        } else if(stepBehaviors.join(",")==="0,a,,c,1") {
+            console.assert(utility.countOptionalSteps()===2);
+
+        } else if(stepBehaviors.join(",")==="0,a,b,,1") {
+            console.assert(utility.countOptionalSteps()===2);
+            
+        } else if(stepBehaviors.join(",")==="0,,b,,1") {
+            console.assert(utility.countOptionalSteps()===1);
+            
+        }
+
+    }
+
+    testInputSelectors(["0", "a", "b", "c", "1"]);
+    testOutputSelectors();
+    testOptionalStepsModel(["0", "a", "b", "c", "1"]);
+    testOptionalStepsModel(["0", "a", "", "c", "1"]);
+    testOptionalStepsModel(["0", "a", "b", "", "1"]);
+    testOptionalStepsModel(["0", "", "b", "", "1"]);
+    test__resetBehaviors();
 })
