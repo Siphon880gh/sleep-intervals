@@ -83,7 +83,31 @@ class Poller {
 // Init poller
 $(()=>{
     let poller = new Poller(100);
-})
+});
+
+// Init current time
+$(()=>{
+    let hh = new Date(Date.now()).getHours();
+    let mm = new Date(Date.now()).getMinutes();
+    let timemark = ""+hh+mm;
+    let fractional = utility.cvtMilitaryTimeToFractional(timemark);
+    let minutes = (fractional % 1) * 60;
+    debugger;
+    let mmRounded = (()=>{
+        if(minutes<=60 && minutes > 45) {
+            return 0;
+        } else if(minutes<=45 && minutes > 30) {
+            return 45;
+        } else if(minutes<=30 && minutes > 15) {
+            return 30;
+        } else if(minutes<=15 && minutes > 0) {
+            return 15;
+        }
+    })(minutes)
+    debugger;
+    $(".time-opened-app").val(""+hh+mm);
+    $(".override-splitting-time-from").val(""+hh+mmRounded);
+});
 
 // Event handlers
 $(()=>{

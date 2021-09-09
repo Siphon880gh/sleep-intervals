@@ -199,7 +199,7 @@ $(()=>{
     // $("td:nth-child(4) .input-optional-step").val("c");
     $(".input-last-step").val("1");
 
-    $(".time-opened-app, .override-splitting-time-from").val("2200");
+    // $(".time-opened-app, .override-splitting-time-from").val("2000");
 
     const countSteps = (()=>{
         const countOptionalSteps = utility.countOptionalSteps();
@@ -239,16 +239,73 @@ $(()=>{
                     pointBFractional = pointBFractional+=24;
             }
             let delta = pointBFractional - pointAFractional;
-            let divs = delta/countSteps;
-            if(divs<=0) alert(`You're already going to miss sleep because you want to wake up at ${settings[0].timeWakeUpBy} and takes ${settings[0].durationSleepToWake} hours to be fully rested in bed including waking up in the middle. Go to bed!`, "Hey!");
+            let splitDelta = delta/countSteps;
+            if(splitDelta<=0) alert(`You're already going to miss sleep because you want to wake up at ${settings[0].timeWakeUpBy} and it takes you ${settings[0].durationSleepToWake} hours to be fully rested in bed including waking up in the middle. Go to bed!`, "Hey!");
 
-            // let pointA = utility.cvtMilitaryTimeToFractional(timemark);
-            // let equaled = subtractFrom - pointA;
-            // if(equaled<0) equaled = 24+equaled; // standardize any negative to fractional hour around the clock
+            splittedTimemarks = [
+                subtractTime(subtractFrom, splitDelta, 0),
+                subtractTime(subtractFrom, splitDelta, 1),
+                subtractTime(subtractFrom, splitDelta, 2),
+                subtractTime(subtractFrom, splitDelta, 3)
+            ];
 
-            let overridingStepSize 
+            $elRecommend.find("td.output-optional-step").removeClass("hide");
+            if(countSteps===5) {
+                // Hour fractional -> Military Time -> HHMM element
+                $elRecommend.find("td.output-first-step .timemark").text(utility.cvtFractionalToMilitaryTime(splittedTimemarks[0]));
+                $elRecommend.find("td.output-first-step textarea").text(settings.prepend.steps.first + settings[0].steps.first);
 
-            // TODO
+                $elRecommend.find("td.output-optional-step:nth-child(2) .timemark").text(utility.cvtFractionalToMilitaryTime(splittedTimemarks[1]));
+                $elRecommend.find("td.output-optional-step:nth-child(2) textarea").text(settings[0].steps.optional[0]);
+
+                $elRecommend.find("td.output-optional-step:nth-child(3) .timemark").text(utility.cvtFractionalToMilitaryTime(splittedTimemarks[2]));
+                $elRecommend.find("td.output-optional-step:nth-child(3) textarea").text(settings[0].steps.optional[1]);
+
+                $elRecommend.find("td.output-optional-step:nth-child(4) .timemark").text(utility.cvtFractionalToMilitaryTime(splittedTimemarks[3]));
+                $elRecommend.find("td.output-optional-step:nth-child(4) textarea").text(settings[0].steps.optional[2]);
+
+                $elRecommend.find("td.output-last-step .timemark").text(utility.cvtFractionalToMilitaryTime(splittedTimemarks[4]));
+                $elRecommend.find("td.output-last-step textarea").text(settings.prepend.steps.last + settings[0].steps.last);
+            } else if(countSteps===4) {
+                // Hour fractional -> Military Time -> HHMM element
+                $elRecommend.find("td.output-first-step .timemark").text(utility.cvtFractionalToMilitaryTime(splittedTimemarks[0]));
+                $elRecommend.find("td.output-first-step textarea").text(settings.prepend.steps.first + settings[0].steps.first);
+
+                $elRecommend.find("td.output-optional-step:nth-child(2) .timemark").text(utility.cvtFractionalToMilitaryTime(splittedTimemarks[1]));
+                $elRecommend.find("td.output-optional-step:nth-child(2) textarea").text(settings[0].steps.optional[0]);
+
+                $elRecommend.find("td.output-optional-step:nth-child(3),.timemark").text(utility.cvtFractionalToMilitaryTime(splittedTimemarks[2]));
+                $elRecommend.find("td.output-optional-step:nth-child(3) textarea").text(settings[0].steps.optional[1]);
+
+                $elRecommend.find("td.output-optional-step:nth-child(4), th.h-output-optional-step:nth-child(4)").addClass("hide");
+
+                $elRecommend.find("td.output-last-step .timemark").text(utility.cvtFractionalToMilitaryTime(splittedTimemarks[3]));
+                $elRecommend.find("td.output-last-step textarea").text(settings.prepend.steps.last + settings[0].steps.last);
+            } else if(countSteps===3) {
+                // Hour fractional -> Military Time -> HHMM element
+                $elRecommend.find("td.output-first-step .timemark").text(utility.cvtFractionalToMilitaryTime(splittedTimemarks[0]));
+                $elRecommend.find("td.output-first-step textarea").text(settings.prepend.steps.first + settings[0].steps.first);
+
+                $elRecommend.find("td.output-optional-step:nth-child(2) .timemark").text(utility.cvtFractionalToMilitaryTime(splittedTimemarks[1]));
+                $elRecommend.find("td.output-optional-step:nth-child(2) textarea").text(settings[0].steps.optional[0]);
+
+                $elRecommend.find("td.output-optional-step:nth-child(3), th.h-output-optional-step:nth-child(3)").addClass("hide");
+                $elRecommend.find("td.output-optional-step:nth-child(4), th.h-output-optional-step:nth-child(4)").addClass("hide");
+
+                $elRecommend.find("td.output-last-step .timemark").text(utility.cvtFractionalToMilitaryTime(splittedTimemarks[2]));
+                $elRecommend.find("td.output-last-step textarea").text(settings.prepend.steps.last + settings[0].steps.last);
+            } else if(countSteps===2) {
+                // Hour fractional -> Military Time -> HHMM element
+                $elRecommend.find("td.output-first-step .timemark").text(utility.cvtFractionalToMilitaryTime(splittedTimemarks[0]));
+                $elRecommend.find("td.output-first-step textarea").text(settings.prepend.steps.first + settings[0].steps.first);
+
+                $elRecommend.find("td.output-optional-step:nth-child(2), th.h-output-optional-step:nth-child(2)").addClass("hide");
+                $elRecommend.find("td.output-optional-step:nth-child(3), th.h-output-optional-step:nth-child(3)").addClass("hide");
+                $elRecommend.find("td.output-optional-step:nth-child(4), th.h-output-optional-step:nth-child(4)").addClass("hide");
+
+                $elRecommend.find("td.output-last-step .timemark").text(utility.cvtFractionalToMilitaryTime(splittedTimemarks[1]));
+                $elRecommend.find("td.output-last-step textarea").text(settings.prepend.steps.last + settings[0].steps.last);
+            }
             
         } else {
             splittedTimemarks = [
