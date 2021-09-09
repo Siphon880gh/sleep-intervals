@@ -11,9 +11,6 @@
     <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/font-awesome/5.13.1/css/all.min.css">
     <script src="//code.jquery.com/jquery-2.1.4.min.js"></script>
 
-    <!-- Livequery -->
-    <script src="//raw.githack.com/hazzik/livequery/master/src/jquery.livequery.js"></script>
-
     <link href="assets/css/index.css" rel="stylesheet">
     <script src="assets/js/app.js"></script>
     <script src="_test/app.js"></script>
@@ -41,7 +38,10 @@
                     <div class="input-group-prepend">
                         <div class="input-group-text">Time wake up by</div>
                     </div>
-                    <input type="text" class="form-control" value="" placeholder="Military time eg. 2100" />
+                    <input type="text" class="form-control input-time-wake-up-by" value="" placeholder="Military time eg. 2100" />
+                    <div class="invalid-feedback">
+                        Please use <a href="//militaryconnection.com/military-time/" target="_blank">military time</a>. Refer to midnight as 0000 because that starts a new day in AM.
+                    </div>
                 </div>
 
                 <p>2. Enter the usual number of hours you need in bed after falling asleep to feel rested. <u class="fw-light">Include the time to fall back asleep</u> when you wake up in the middle.</p>

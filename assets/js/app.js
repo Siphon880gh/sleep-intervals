@@ -74,12 +74,26 @@ class Poller {
     }
 }
 
-
+// Init poller
 $(()=>{
-    // Init poller
     let poller = new Poller(100);
+})
 
-    // Event listeners
-    // TODO.
+// Event handlers
+$(()=>{
+    $(".input-time-wake-up-by").on('change', (event) => {
+        let $eventEl = $(event.target);
+        let inputtedMilitaryTime = $eventEl.val();
+        // console.log({inputtedMilitaryTime});
+
+        let isValidated = utility.validateMilitaryTime(inputtedMilitaryTime);
+        // console.log({isValidated})
+
+        if(isValidated)
+            $eventEl.removeClass("is-invalid").addClass("is-valid");
+        else
+            $eventEl.addClass("is-invalid").removeClass("is-valid");
+
+    });
     // TODO: .focus-recommendation will toggle display on all other recommendations
 })
