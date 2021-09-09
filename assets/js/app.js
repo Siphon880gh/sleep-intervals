@@ -22,9 +22,9 @@ window.settings = {
         timeWakeUpBy: "0600",
         durationSleepToWake: 8,
         steps: {
-            first: "",
-            optional: [],
-            last: "",
+            first: "1",
+            optional: ["a","b","c"],
+            last: "2",
         }
     }
 }
@@ -64,25 +64,31 @@ window.utility = {
     }
 }
 
-/**
- * Poller re-renders only when necessary to save performance
- */
-class Poller {
-    #lastUpdatedSeen;
-    constructor(ms) {
-        this.#lastUpdatedSeen = -1;
-        setInterval(()=>{
-            if(this.#lastUpdatedSeen !== window.settings.lastUpdated) {
-                // TODO: Update lastUpdatedSeen to settings.lastUpdated then re-render the page
-                // TODO: Re-render includes looking at the Experimental section if it has an user input
-            }
-        }, ms);
-    }
-}
-
-// Init poller
+// Inits
 $(()=>{
-    let poller = new Poller(100);
+    // Init poller
+    window.poller = new Poller(100);
+
+    // Fill form to match model
+        // Fill times
+        document.querySelector(".input-duration-sleep-to-wake").selectedIndex = $(`.input-duration-sleep-to-wake option[value="${settings[0].durationSleepToWake}"]`).index();
+        document.querySelector(".input-time-wake-up-by").value = settings[0].timeWakeUpBy;
+        $(".input-duration-sleep-to-wake, .input-time-wake-up-by").trigger("change");
+    
+        // Fill some steps
+        $(".input-first-step").val(settings[0].steps.first);
+        for(var i = 0; i < settings[0].steps.optional.length; i++) {
+            if(i===0) {
+                $("td:nth-child(2) .input-optional-step").val(settings[0].steps.optional[i]);
+            } else if (i===1) {
+                $("td:nth-child(3) .input-optional-step").val(settings[0].steps.optional[i]);
+            } else if (i===2) {
+                $("td:nth-child(4) .input-optional-step").val(settings[0].steps.optional[i]);
+            }
+        }
+        $(".input-last-step").val(settings[0].steps.last);
+        $(".input-last-step").trigger("change");
+    
 });
 
 // Init current time
@@ -109,7 +115,7 @@ $(()=>{
     let mmRounded = (""+mRounded).padStart(2, "0");
 
     $(".time-opened-app").val(""+hh+mm);
-    $(".override-splitting-time-from").val(""+hh+mmRounded);
+    $(".optional-prepare-time").val(""+hh+mmRounded);
 });
 
 // Event handlers

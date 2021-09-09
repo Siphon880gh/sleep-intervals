@@ -168,8 +168,9 @@ $(()=>{
     test__resetBehaviors();
 })
 
-// Test timemark recommendations
-$(()=>{
+// Test timemark recommendations - Test passed. Turned off. To turn on, convert back to jQuery onready
+var off = (()=>{
+// $(()=>{ // on
     // - If user entered 0600 wake up time, 8 hours to be in bed, and filled 1 optional step,
     // then we expect appropriate timemarks and only 1 visible optional stes per recommendation.
     // - The appropriate timemarks are the steps back from the time you should fall asleep, which is the time to wake up + time it takes for a full rest in bed.
@@ -209,7 +210,7 @@ $(()=>{
     })();
     const durationSleepToWake = settings[0].durationSleepToWake;
     const subtractFrom = (()=>{
-        timeWakeUpByFractional = utility.cvtMilitaryTimeToFractional(settings[0].timeWakeUpBy);
+        let timeWakeUpByFractional = utility.cvtMilitaryTimeToFractional(settings[0].timeWakeUpBy);
         let equaled = timeWakeUpByFractional - durationSleepToWake;
         if(equaled<0) equaled = 24+equaled; // standardize any negative to fractional hour around the clock
         return equaled;

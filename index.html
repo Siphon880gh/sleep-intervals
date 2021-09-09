@@ -13,7 +13,8 @@
 
     <link href="assets/css/index.css" rel="stylesheet">
     <script src="assets/js/app.js"></script>
-    <script src="_test/app.js"></script>
+    <script src="assets/js/poller.js"></script>
+    <!-- <script src="_test/app.js"></script> -->
 
 </head>
 
@@ -85,9 +86,9 @@
                         <tbody>
                             <tr>
                                 <td><textarea class="input-step input-first-step fs-7 resize-vertical"></textarea></td>
-                                <td><textarea class="input-step input-optional-step fs-7 resize-vertical"></textarea></td>
-                                <td><textarea class="input-step input-optional-step fs-7 resize-vertical"></textarea></td>
-                                <td><textarea class="input-step input-optional-step fs-7 resize-vertical"></textarea></td>
+                                <td><textarea class="input-step input-optional-step input-optional-step-1 fs-7 resize-vertical"></textarea></td>
+                                <td><textarea class="input-step input-optional-step input-optional-step-2 fs-7 resize-vertical"></textarea></td>
+                                <td><textarea class="input-step input-optional-step input-optional-step-3 fs-7 resize-vertical"></textarea></td>
                                 <td><textarea class="input-step input-last-step fs-7 resize-vertical"></textarea></td>
                             </tr>
                         </tbody>
@@ -114,16 +115,17 @@
                         <div class="input-group-append">
                             <div class="input-group-text">Rounded up</div>
                         </div>
-                        <input type="text" class="form-control override-splitting-time-from" value="" placeholder="" disabled />
+                        <input type="text" class="form-control optional-prepare-time" value="" placeholder="" disabled />
                     </div>
+                    <div class="too-late hide bg-danger text-white mt-2 p-1"><b>Go to bed!</b> You're already going to miss sleep because there's not enough time between now and the time you want to wake up and still wake up in the middle of sleep and be fully rested.</div>
                     <div class="table-responsive">
                         <table class="table">
                             <thead>
                                 <tr>
                                     <th scope="col">Begin</th>
-                                    <th class="h-output-optional-step" scope="col">Optional</th>
-                                    <th class="h-output-optional-step" scope="col">Optional</th>
-                                    <th class="h-output-optional-step" scope="col">Optional</th>
+                                    <th class="h-output-optional-step h-output-optional-step-1" scope="col">Optional</th>
+                                    <th class="h-output-optional-step h-output-optional-step-2" scope="col">Optional</th>
+                                    <th class="h-output-optional-step h-output-optional-step-3" scope="col">Optional</th>
                                     <th scope="col">Fall asleep</th>
                                 </tr>
                             </thead>
@@ -136,21 +138,21 @@
                                         </div>
                                         <textarea class="fs-7 resize-vertical" disabled></textarea>
                                     </td>
-                                    <td class="output-optional-step">
+                                    <td class="output-optional-step output-optional-step-1">
                                         <div>
                                             <span class="fs-6 pr-1 timemark">HHMM</span>
                                             <input type="checkbox" />
                                         </div>
                                         <textarea class="fs-7 resize-vertical" disabled></textarea>
                                     </td>
-                                    <td class="output-optional-step">
+                                    <td class="output-optional-step output-optional-step-2">
                                         <div>
                                             <span class="fs-6 pr-1 timemark">HHMM</span>
                                             <input type="checkbox" />
                                         </div>
                                         <textarea class="fs-7 resize-vertical" disabled></textarea>
                                     </td>
-                                    <td class="output-optional-step">
+                                    <td class="output-optional-step output-optional-step-3">
                                         <div>
                                             <span class="fs-6 pr-1 timemark">HHMM</span>
                                             <input type="checkbox" />
@@ -177,19 +179,20 @@
                         <div class="input-group-prepend">
                             <div class="input-group-text">I'm ready to relax at</div>
                         </div>
-                        <input type="text" class="form-control override-splitting-time-from" value="" placeholder="Military time eg. 2100" />
+                        <input type="text" class="form-control optional-prepare-time" value="" placeholder="Military time eg. 2100" />
                         <div class="invalid-feedback">
                             Please use <a href="//militaryconnection.com/military-time/" target="_blank">military time</a>. Refer to midnight as 0000 because that starts a new day in AM.
                         </div>
                     </div>
+                    <div class="too-late hide bg-danger text-white mt-2 p-1"><b>Too late!</b> You'd miss sleep because there's not enough time between that time and the time you want to wake up and still wake up in the middle of sleep and be fully rested.</div>
                     <div class="table-responsive">
                         <table class="table">
                             <thead>
                                 <tr>
                                     <th scope="col">Begin</th>
-                                    <th class="h-output-optional-step" scope="col">Optional</th>
-                                    <th class="h-output-optional-step" scope="col">Optional</th>
-                                    <th class="h-output-optional-step" scope="col">Optional</th>
+                                    <th class="h-output-optional-step h-output-optional-step-1" scope="col">Optional</th>
+                                    <th class="h-output-optional-step h-output-optional-step-2" scope="col">Optional</th>
+                                    <th class="h-output-optional-step h-output-optional-step-3" scope="col">Optional</th>
                                     <th scope="col">Fall asleep</th>
                                 </tr>
                             </thead>
@@ -202,21 +205,21 @@
                                         </div>
                                         <textarea class="fs-7 resize-vertical" disabled></textarea>
                                     </td>
-                                    <td class="output-optional-step">
+                                    <td class="output-optional-step output-optional-step-1">
                                         <div>
                                             <span class="fs-6 pr-1 timemark">HHMM</span>
                                             <input type="checkbox" />
                                         </div>
                                         <textarea class="fs-7 resize-vertical" disabled></textarea>
                                     </td>
-                                    <td class="output-optional-step">
+                                    <td class="output-optional-step output-optional-step-2">
                                         <div>
                                             <span class="fs-6 pr-1 timemark">HHMM</span>
                                             <input type="checkbox" />
                                         </div>
                                         <textarea class="fs-7 resize-vertical" disabled></textarea>
                                     </td>
-                                    <td class="output-optional-step">
+                                    <td class="output-optional-step output-optional-step-3">
                                         <div>
                                             <span class="fs-6 pr-1 timemark">HHMM</span>
                                             <input type="checkbox" />
@@ -244,9 +247,9 @@
                             <thead>
                                 <tr>
                                     <th scope="col">Begin</th>
-                                    <th class="h-output-optional-step" scope="col">Optional</th>
-                                    <th class="h-output-optional-step" scope="col">Optional</th>
-                                    <th class="h-output-optional-step" scope="col">Optional</th>
+                                    <th class="h-output-optional-step h-output-optional-step-1" scope="col">Optional</th>
+                                    <th class="h-output-optional-step h-output-optional-step-2" scope="col">Optional</th>
+                                    <th class="h-output-optional-step h-output-optional-step-3" scope="col">Optional</th>
                                     <th scope="col">Fall asleep</th>
                                 </tr>
                             </thead>
@@ -259,21 +262,21 @@
                                         </div>
                                         <textarea class="fs-7 resize-vertical" disabled></textarea>
                                     </td>
-                                    <td class="output-optional-step">
+                                    <td class="output-optional-step output-optional-step-1">
                                         <div>
                                             <span class="fs-6 pr-1 timemark">HHMM</span>
                                             <input type="checkbox" />
                                         </div>
                                         <textarea class="fs-7 resize-vertical" disabled></textarea>
                                     </td>
-                                    <td class="output-optional-step">
+                                    <td class="output-optional-step output-optional-step-2">
                                         <div>
                                             <span class="fs-6 pr-1 timemark">HHMM</span>
                                             <input type="checkbox" />
                                         </div>
                                         <textarea class="fs-7 resize-vertical" disabled></textarea>
                                     </td>
-                                    <td class="output-optional-step">
+                                    <td class="output-optional-step output-optional-step-3">
                                         <div>
                                             <span class="fs-6 pr-1 timemark">HHMM</span>
                                             <input type="checkbox" />
@@ -301,9 +304,9 @@
                             <thead>
                                 <tr>
                                     <th scope="col">Begin</th>
-                                    <th class="h-output-optional-step" scope="col">Optional</th>
-                                    <th class="h-output-optional-step" scope="col">Optional</th>
-                                    <th class="h-output-optional-step" scope="col">Optional</th>
+                                    <th class="h-output-optional-step h-output-optional-step-1" scope="col">Optional</th>
+                                    <th class="h-output-optional-step h-output-optional-step-2" scope="col">Optional</th>
+                                    <th class="h-output-optional-step h-output-optional-step-3" scope="col">Optional</th>
                                     <th scope="col">Fall asleep</th>
                                 </tr>
                             </thead>
@@ -316,21 +319,21 @@
                                         </div>
                                         <textarea class="fs-7 resize-vertical" disabled></textarea>
                                     </td>
-                                    <td class="output-optional-step">
+                                    <td class="output-optional-step output-optional-step-1">
                                         <div>
                                             <span class="fs-6 pr-1 timemark">HHMM</span>
                                             <input type="checkbox" />
                                         </div>
                                         <textarea class="fs-7 resize-vertical" disabled></textarea>
                                     </td>
-                                    <td class="output-optional-step">
+                                    <td class="output-optional-step output-optional-step-2">
                                         <div>
                                             <span class="fs-6 pr-1 timemark">HHMM</span>
                                             <input type="checkbox" />
                                         </div>
                                         <textarea class="fs-7 resize-vertical" disabled></textarea>
                                     </td>
-                                    <td class="output-optional-step">
+                                    <td class="output-optional-step output-optional-step-3">
                                         <div>
                                             <span class="fs-6 pr-1 timemark">HHMM</span>
                                             <input type="checkbox" />
@@ -358,9 +361,9 @@
                             <thead>
                                 <tr>
                                     <th scope="col">Begin</th>
-                                    <th class="h-output-optional-step" scope="col">Optional</th>
-                                    <th class="h-output-optional-step" scope="col">Optional</th>
-                                    <th class="h-output-optional-step" scope="col">Optional</th>
+                                    <th class="h-output-optional-step h-output-optional-step-1" scope="col">Optional</th>
+                                    <th class="h-output-optional-step h-output-optional-step-2" scope="col">Optional</th>
+                                    <th class="h-output-optional-step h-output-optional-step-3" scope="col">Optional</th>
                                     <th scope="col">Fall asleep</th>
                                 </tr>
                             </thead>
@@ -373,21 +376,21 @@
                                         </div>
                                         <textarea class="fs-7 resize-vertical" disabled></textarea>
                                     </td>
-                                    <td class="output-optional-step">
+                                    <td class="output-optional-step output-optional-step-1">
                                         <div>
                                             <span class="fs-6 pr-1 timemark">HHMM</span>
                                             <input type="checkbox" />
                                         </div>
                                         <textarea class="fs-7 resize-vertical" disabled></textarea>
                                     </td>
-                                    <td class="output-optional-step">
+                                    <td class="output-optional-step output-optional-step-2">
                                         <div>
                                             <span class="fs-6 pr-1 timemark">HHMM</span>
                                             <input type="checkbox" />
                                         </div>
                                         <textarea class="fs-7 resize-vertical" disabled></textarea>
                                     </td>
-                                    <td class="output-optional-step">
+                                    <td class="output-optional-step output-optional-step-3">
                                         <div>
                                             <span class="fs-6 pr-1 timemark">HHMM</span>
                                             <input type="checkbox" />
