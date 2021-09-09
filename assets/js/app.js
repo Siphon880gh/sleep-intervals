@@ -8,8 +8,9 @@
  */
 window.settings = {
     lastUpdated: 0,
-    save: function() {
+    save: function(mergeObj) {
         this.lastUpdated = Date.now();
+        Object.assign(this[0], mergeObj);
     },
     0: {
         timeWakeUpBy: "0600",
@@ -83,15 +84,16 @@ $(()=>{
 $(()=>{
     $(".input-time-wake-up-by").on('change', (event) => {
         let $eventEl = $(event.target);
-        let inputtedMilitaryTime = $eventEl.val();
+        let timeWakeUpBy = $eventEl.val()+"";
         // console.log({inputtedMilitaryTime});
 
-        let isValidated = utility.validateMilitaryTime(inputtedMilitaryTime);
+        let isValidated = utility.validateMilitaryTime(timeWakeUpBy);
         // console.log({isValidated})
 
-        if(isValidated)
+        if(isValidated) {
             $eventEl.removeClass("is-invalid").addClass("is-valid");
-        else
+            settings.save({timeWakeUpBy})
+        } else
             $eventEl.addClass("is-invalid").removeClass("is-valid");
 
     });
