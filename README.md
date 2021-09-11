@@ -28,7 +28,3 @@ By Weng Fei Fung. This tool will help insomniacs prepare for sleep. Disclaimer: 
 
 ## :minidisc: Installation and Usage:
 Run as a HTML file or server file. No needed hands-on setup.
-
-## :crystal_ball: Future version
-- Saves your settings
-- PWA application for offline use and native app download
