@@ -35,7 +35,8 @@ window.settings = {
                 "Hot shower to help sleep. Be near or on bed. Relaxation activities (videogame allowed with blue light blocking glasses). Lights are dimmed or dark.",
                 "Postpone all relaxation activities. Close eyes. May listen to non-stimulating podcasts with eyes closed."],
             last: "You should've fallen asleep. If not, did you follow instructions? Is this too early for sleep? Or should you practice sleep restriction (google it)?",
-        }
+        },
+        focus: null
     }
 }
 
@@ -47,10 +48,121 @@ persistSettings = () => {
     localStorage.setItem("sleepIntervals__settings", JSON.stringify(settings))
 }
 
+// Event handlers
 $(()=>{
-    // Get persisted
+    $(".help-time-wake-up-by").on('click', ()=>{
+        alert("Please use military time. Refer to midnight as 0000 because that starts a new day in AM.");
+        window.open("//militaryconnection.com/military-time/");
+    });
+
+    $(".input-time-wake-up-by").on('change', (event) => {
+        let $eventEl = $(event.target);
+        let timeWakeUpBy = $eventEl.val()+"";
+        // console.log({inputtedMilitaryTime});
+
+        let isValidated = utility.validateMilitaryTime(timeWakeUpBy);
+        // console.log({isValidated})
+
+        if(isValidated) {
+            $eventEl.removeClass("is-invalid").addClass("is-valid");
+            Object.assign(window.settings[0], {timeWakeUpBy});
+            persistSettings();
+        } else
+            $eventEl.addClass("is-invalid").removeClass("is-valid");
+    });
+
+    $(".input-duration-sleep-to-wake").on('change', (event) => {
+        let $eventEl = $(event.target);
+        let durationSleepToWake = $eventEl.val();
+        // debugger;
+
+        $eventEl.addClass("is-valid");
+        Object.assign(window.settings[0], {durationSleepToWake});
+        persistSettings();
+    });
+
+    $(".optional-prepare-time").on('change', (event) => {
+        let $eventEl = $(event.target);
+        let inputPointA = $eventEl.val()+"";
+
+        let isValidated = utility.validateMilitaryTime(inputPointA);
+
+        if(isValidated) {
+            $eventEl.removeClass("is-invalid").addClass("is-valid");
+        } else
+            $eventEl.addClass("is-invalid").removeClass("is-valid");
+    });
+    
+    $(".optional-prepare-time").on('change', (event) => {
+        let $eventEl = $(event.target);
+        let possMilitaryTime = $eventEl.val();
+        // if(utility.validateMilitaryTime(possMilitaryTime))
+        //     settings.save({});
+        // Nothing to save in settings though
+    });
+
+    $(".input-first-step").on("change", (ev)=>{
+        let {target:el} = ev;
+        let {value} = el;
+        window.settings[0].steps.first = value;
+        persistSettings();
+    });
+    $(".input-last-step").on("change", (ev)=>{
+        let {target:el} = ev;
+        let {value} = el;
+        window.settings[0].steps.last = value;
+        persistSettings();
+    });
+    $(".input-optional-step").on("change", (ev)=>{
+        let optionals = $(".input-optional-step").toArray().map(optional => {
+            let $optional = $(optional);
+            let text = $optional.val();
+            return text;
+        })
+        window.settings[0].steps.optional = optionals;
+        persistSettings();
+    });
+
+    $(".focus-recommendation").on("click", (event) => {
+        let $eventEl = $(event.target);
+        let $eyeBtn = $eventEl;
+        let $eyeBtns = $(".focus-recommendation");
+
+        let $recommendation = $eventEl.closest(".recommendation");
+        let $recommendations = $(".recommendation");
+
+        let willBecomeActive = !$eyeBtn.hasClass("active");
+        $eyeBtns.removeClass("active");
+
+        if(willBecomeActive) {
+            $eyeBtn.addClass("active");
+            $recommendations.addClass("hide");
+            $recommendation.removeClass("hide");
+            window.settings[0].focus = $eyeBtn.closest(".recommendation").index();
+            persistSettings();
+        } else {
+            $eyeBtn.removeClass("active");
+            $recommendations.removeClass("hide");
+            window.settings[0].focus = null;
+            persistSettings();
+        }
+    });
+
+    $(".timemark").on("click", (event)=>{
+        let $eventEl = $(event.target);
+        $eventEl.next("input[type='checkbox']").click();
+    });
+})
+
+/**
+ * Get persisted and macro user interactions
+ */
+
+$(()=>{
     let settings = JSON.parse(localStorage.getItem("sleepIntervals__settings"))
-    if(settings) window.settings[0] = settings; // Override default settings?
+    if(settings) {
+        Object.assign(window.settings[0], settings);
+    }
 
     $(".input-duration-sleep-to-wake")[0].selectedIndex = $(`.input-duration-sleep-to-wake option[value="${window.settings[0].durationSleepToWake}"]`).index();
     $(".input-time-wake-up-by")[0].value = window.settings[0].timeWakeUpBy;
@@ -67,6 +179,12 @@ $(()=>{
         }
     }
     $(".input-last-step").val(window.settings[0].steps.last);
+
+    let focused = window.settings[0].focus;
+    if(focused!==null) {
+        let i = focused;
+        $(".recommendation").eq(i).find(".focus-recommendation").click();
+    }
 
     // Init calculator poller
     window.poller = new Poller(100);
@@ -179,105 +297,3 @@ $(()=>{
     $(".time-opened-app").val(""+hh+mm);
     $(".optional-prepare-time").val(""+hhAffected+mmRoundedUp);
 });
-
-// Event handlers
-$(()=>{
-    $(".help-time-wake-up-by").on('click', ()=>{
-        alert("Please use military time. Refer to midnight as 0000 because that starts a new day in AM.");
-        window.open("//militaryconnection.com/military-time/");
-    });
-
-    $(".input-time-wake-up-by").on('change', (event) => {
-        let $eventEl = $(event.target);
-        let timeWakeUpBy = $eventEl.val()+"";
-        // console.log({inputtedMilitaryTime});
-
-        let isValidated = utility.validateMilitaryTime(timeWakeUpBy);
-        // console.log({isValidated})
-
-        if(isValidated) {
-            $eventEl.removeClass("is-invalid").addClass("is-valid");
-            window.settings[0].timeWakeUpBy = timeWakeUpBy;
-            persistSettings();
-        } else
-            $eventEl.addClass("is-invalid").removeClass("is-valid");
-    });
-
-    $(".input-duration-sleep-to-wake").on('change', (event) => {
-        let $eventEl = $(event.target);
-        let durationSleepToWake = $eventEl.val();
-        durationSleepToWake = durationSleepToWake;
-        // debugger;
-
-        $eventEl.addClass("is-valid");
-        window.settings[0].durationSleepToWake = durationSleepToWake;
-        persistSettings();
-    });
-
-    $(".optional-prepare-time").on('change', (event) => {
-        let $eventEl = $(event.target);
-        let inputPointA = $eventEl.val()+"";
-
-        let isValidated = utility.validateMilitaryTime(inputPointA);
-
-        if(isValidated) {
-            $eventEl.removeClass("is-invalid").addClass("is-valid");
-        } else
-            $eventEl.addClass("is-invalid").removeClass("is-valid");
-    });
-    
-    $(".optional-prepare-time").on('change', (event) => {
-        let $eventEl = $(event.target);
-        let possMilitaryTime = $eventEl.val();
-        // if(utility.validateMilitaryTime(possMilitaryTime))
-        //     settings.save({});
-    });
-
-    $(".input-first-step").on("change", (ev)=>{
-        let {target:el} = ev;
-        let {value} = el;
-        window.settings[0].steps.first = value;
-        persistSettings();
-    });
-    $(".input-last-step").on("change", (ev)=>{
-        let {target:el} = ev;
-        let {value} = el;
-        window.settings[0].steps.last = value;
-        persistSettings();
-    });
-    $(".input-optional-step").on("change", (ev)=>{
-        let optionals = $(".input-optional-step").toArray().map(optional => {
-            let $optional = $(optional);
-            let text = $optional.val();
-            return text;
-        })
-        window.settings[0].steps.optional = optionals;
-        persistSettings();
-    });
-
-    $(".focus-recommendation").on("click", (event) => {
-        let $eventEl = $(event.target);
-        let $eyeBtn = $eventEl;
-        let $eyeBtns = $(".focus-recommendation");
-
-        let $recommendation = $eventEl.closest(".recommendation");
-        let $recommendations = $(".recommendation");
-
-        let willBecomeActive = !$eyeBtn.hasClass("active");
-        $eyeBtns.removeClass("active");
-
-        if(willBecomeActive) {
-            $eyeBtn.addClass("active");
-            $recommendations.addClass("hide");
-            $recommendation.removeClass("hide");
-        } else {
-            $eyeBtn.removeClass("active");
-            $recommendations.removeClass("hide");
-        }
-    });
-
-    $(".timemark").on("click", (event)=>{
-        let $eventEl = $(event.target);
-        $eventEl.next("input[type='checkbox']").click();
-    });
-})
