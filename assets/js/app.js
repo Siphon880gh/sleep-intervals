@@ -1,4 +1,15 @@
 /**
+ * Test Mode
+ * If mocking a time instead of using current time for calculations, enter a string like "1800"
+ * That is military time. Otherwise, set to false or null.
+ * 
+ * mockNowMilitaryTime false | null | String
+ * 
+ */
+// window.mockNowMilitaryTime = false;
+window.mockNowMilitaryTime = "1800";
+
+/**
  * 
  * Settings is a global state with setting helpers.
  * - The values are default and meant to be overridden if other saved settings found in localStorage
@@ -15,7 +26,7 @@ window.settings = {
         }
     },
     save: function(mergeObj) {
-        this.lastUpdated = Date.now();
+        this.lastUpdated = window.utility.getTimeNow();
         Object.assign(this[0], mergeObj);
     },
     0: {
@@ -36,6 +47,41 @@ window.settings = {
  * Utility functions
  */
 window.utility = {
+    getTimeNowMockAlerted: false,
+    getTimeNow: () => {
+        if(window.mockNowMilitaryTime===false || window.mockNowMilitaryTime===null)
+            return Date.now();
+
+        if(window.utility.validateMilitaryTime(window.mockNowMilitaryTime)) {
+            // Convert mocked military time to Date() compatible
+            // E.g. "24-Nov-2009 18:00:00"
+            var cvtMtStdDate = () => {
+                let currentDate = Date.now();
+                let dd = new Intl.DateTimeFormat('en', { day: '2-digit' }).format(currentDate);
+                let mmm = new Intl.DateTimeFormat('en', { month: 'short' }).format(currentDate);
+                let yyyy = new Intl.DateTimeFormat('en', { year: 'numeric' }).format(currentDate);
+                return dd + "-" + mmm + "-" + yyyy;
+            }
+            var cvtMtStdTime = () => {
+                let hh = window.mockNowMilitaryTime.substr(0,2);
+                let mm = window.mockNowMilitaryTime.substr(2,2);
+                let ss = "00";
+                return hh + ":" + mm + ":" + ss;
+            };
+            let stdTimeAll = cvtMtStdDate() + " " + cvtMtStdTime();
+            let cvtMockUnix = Date.parse(stdTimeAll);
+
+            debugger;
+
+            return cvtMockUnix;
+        } else {
+            if(!window.utility.getTimeNowMockAlerted) {
+                alert("Error: Test's window.mockNowMilitaryTime incorrect format. This is used to override the current time used for calculations. Try eg. 2100. Or set to false or null to turn off test mode and use the actual current time. Because the test failed, we are turning off test mode for this session and using the current time instead.");
+                window.utility.getTimeNowMockAlerted = true;
+            }
+            return Date.now();
+        }
+    },
     validateMilitaryTime: (militaryTime) => {
         let firstPass = typeof militaryTime==="string" && militaryTime.length===4,
             secondPass = parseInt(militaryTime.substr(0,2)) >= 0 && parseInt(militaryTime.substr(0,2)) <= 23,
@@ -99,8 +145,8 @@ $(()=>{
 
 // Init current time
 $(()=>{
-    let h = new Date(Date.now()).getHours();
-    let m = new Date(Date.now()).getMinutes();
+    let h = new Date(window.utility.getTimeNow()).getHours();
+    let m = new Date(window.utility.getTimeNow()).getMinutes();
     let hh = (""+h).padStart(2, "0"), 
         mm = (""+m).padStart(2, "0");
     let timemark = ""+hh+mm;
