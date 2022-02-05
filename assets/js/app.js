@@ -6,8 +6,8 @@
  * mockNowMilitaryTime false | null | String
  * 
  */
-// window.mockNowMilitaryTime = false;
-window.mockNowMilitaryTime = "1800";
+window.mockNowMilitaryTime = false;
+// window.mockNowMilitaryTime = "1800";
 
 /**
  * 
@@ -25,10 +25,6 @@ window.settings = {
             last: ""
         }
     },
-    save: function(mergeObj) {
-        this.lastUpdated = window.utility.getTimeNow();
-        Object.assign(this[0], mergeObj);
-    },
     0: {
         timeWakeUpBy: "0600",
         durationSleepToWake: 8,
@@ -42,6 +38,41 @@ window.settings = {
         }
     }
 }
+
+/**
+ * Persist settings
+ */
+persistSettings = () => {
+    let settings = window.settings[0]
+    localStorage.setItem("sleepIntervals__settings", JSON.stringify(settings))
+}
+
+$(()=>{
+    // Get persisted
+    let settings = JSON.parse(localStorage.getItem("sleepIntervals__settings"))
+    if(settings) window.settings[0] = settings; // Override default settings?
+
+    $(".input-duration-sleep-to-wake")[0].selectedIndex = $(`.input-duration-sleep-to-wake option[value="${window.settings[0].durationSleepToWake}"]`).index();
+    $(".input-time-wake-up-by")[0].value = window.settings[0].timeWakeUpBy;
+
+    // Fill some steps
+    $(".input-first-step").val(window.settings[0].steps.first);
+    for(var i = 0; i < window.settings[0].steps.optional.length; i++) {
+        if(i===0) {
+            $("td:nth-child(2) .input-optional-step").val(window.settings[0].steps.optional[i]);
+        } else if (i===1) {
+            $("td:nth-child(3) .input-optional-step").val(window.settings[0].steps.optional[i]);
+        } else if (i===2) {
+            $("td:nth-child(4) .input-optional-step").val(window.settings[0].steps.optional[i]);
+        }
+    }
+    $(".input-last-step").val(window.settings[0].steps.last);
+
+    // Init calculator poller
+    window.poller = new Poller(100);
+})
+
+
 
 /**
  * Utility functions
@@ -70,8 +101,6 @@ window.utility = {
             };
             let stdTimeAll = cvtMtStdDate() + " " + cvtMtStdTime();
             let cvtMockUnix = Date.parse(stdTimeAll);
-
-            debugger;
 
             return cvtMockUnix;
         } else {
@@ -116,33 +145,6 @@ window.utility = {
     }
 }
 
-// Inits
-$(()=>{
-    // Init poller
-    window.poller = new Poller(100);
-
-    // Fill form to match model
-        // Fill times
-        document.querySelector(".input-duration-sleep-to-wake").selectedIndex = $(`.input-duration-sleep-to-wake option[value="${settings[0].durationSleepToWake}"]`).index();
-        document.querySelector(".input-time-wake-up-by").value = settings[0].timeWakeUpBy;
-        $(".input-duration-sleep-to-wake, .input-time-wake-up-by").trigger("change");
-    
-        // Fill some steps
-        $(".input-first-step").val(settings[0].steps.first);
-        for(var i = 0; i < settings[0].steps.optional.length; i++) {
-            if(i===0) {
-                $("td:nth-child(2) .input-optional-step").val(settings[0].steps.optional[i]);
-            } else if (i===1) {
-                $("td:nth-child(3) .input-optional-step").val(settings[0].steps.optional[i]);
-            } else if (i===2) {
-                $("td:nth-child(4) .input-optional-step").val(settings[0].steps.optional[i]);
-            }
-        }
-        $(".input-last-step").val(settings[0].steps.last);
-        $(".input-last-step").trigger("change");
-    
-});
-
 // Init current time
 $(()=>{
     let h = new Date(window.utility.getTimeNow()).getHours();
@@ -160,7 +162,7 @@ $(()=>{
             return 45;
         } else if(minutes<=30 && minutes > 15) {
             return 30;
-        } else if(minutes<=15 && minutes > 0) {
+        } else if(minutes<=15 && minutes >= 0) {
             return 15;
         }
     })(minutes);
@@ -195,9 +197,21 @@ $(()=>{
 
         if(isValidated) {
             $eventEl.removeClass("is-invalid").addClass("is-valid");
-            settings.save({timeWakeUpBy})
+            window.settings[0].timeWakeUpBy = timeWakeUpBy;
+            persistSettings();
         } else
             $eventEl.addClass("is-invalid").removeClass("is-valid");
+    });
+
+    $(".input-duration-sleep-to-wake").on('change', (event) => {
+        let $eventEl = $(event.target);
+        let durationSleepToWake = $eventEl.val();
+        durationSleepToWake = durationSleepToWake;
+        // debugger;
+
+        $eventEl.addClass("is-valid");
+        window.settings[0].durationSleepToWake = durationSleepToWake;
+        persistSettings();
     });
 
     $(".optional-prepare-time").on('change', (event) => {
@@ -211,32 +225,34 @@ $(()=>{
         } else
             $eventEl.addClass("is-invalid").removeClass("is-valid");
     });
-
-    $(".input-duration-sleep-to-wake").on('change', (event) => {
-        let $eventEl = $(event.target);
-        let durationSleepToWake = $eventEl.val();
-        durationSleepToWake = parseInt(durationSleepToWake);
-
-        $eventEl.addClass("is-valid");
-        settings.save({durationSleepToWake});
-    });
-
+    
     $(".optional-prepare-time").on('change', (event) => {
         let $eventEl = $(event.target);
         let possMilitaryTime = $eventEl.val();
-        if(utility.validateMilitaryTime(possMilitaryTime))
-            settings.save({});
+        // if(utility.validateMilitaryTime(possMilitaryTime))
+        //     settings.save({});
     });
 
-    $(".input-step").on('change', (event) => {
-        let $eventEl = $(event.target);
-        settings.save({
-            steps: {
-                first: $(".input-first-step").val(),
-                optional: $(".input-optional-step").toArray().map(elTextarea=>elTextarea.value).filter(textarea=>textarea.length),
-                last: $(".input-last-step").val()
-            }
-        });
+    $(".input-first-step").on("change", (ev)=>{
+        let {target:el} = ev;
+        let {value} = el;
+        window.settings[0].steps.first = value;
+        persistSettings();
+    });
+    $(".input-last-step").on("change", (ev)=>{
+        let {target:el} = ev;
+        let {value} = el;
+        window.settings[0].steps.last = value;
+        persistSettings();
+    });
+    $(".input-optional-step").on("change", (ev)=>{
+        let optionals = $(".input-optional-step").toArray().map(optional => {
+            let $optional = $(optional);
+            let text = $optional.val();
+            return text;
+        })
+        window.settings[0].steps.optional = optionals;
+        persistSettings();
     });
 
     $(".focus-recommendation").on("click", (event) => {
