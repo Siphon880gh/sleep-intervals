@@ -35,8 +35,8 @@
         "sizes": "512x512",
         "type": "image/png"
     }],
-    "theme_color": "#3367D6",
-    "background_color": "#3367D6",
+    "theme_color": "#6f00ff",
+    "background_color": "#b57bff",
     "start_url": "/tools/sleep-intervals/",
     "scope": "/tools/sleep-intervals/",
     "display": "standalone"
